@@ -38,6 +38,11 @@ const Navigation = () => {
             >
               Contact
             </Link>
+            <Link to="/packages">
+              <button className="bg-gradient-to-r from-[hsl(var(--gold-dark))] via-[hsl(var(--gold))] to-[hsl(var(--gold-light))] text-charcoal px-6 py-2 rounded-md font-semibold transition-all duration-300 hover:scale-110 gold-shadow">
+                Join Waitlist
+              </button>
+            </Link>
           </div>
         </div>
       </div>
