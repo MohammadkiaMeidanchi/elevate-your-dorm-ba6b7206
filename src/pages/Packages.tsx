@@ -1,4 +1,5 @@
 import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 import { Card } from "@/components/ui/card";
 import { Check, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -50,10 +51,10 @@ const Packages = () => {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Navigation />
       
-      <main className="container mx-auto px-6 py-32">
+      <main className="container mx-auto px-6 py-32 flex-1">
         <div className="max-w-6xl mx-auto text-center mb-16">
           <h1 className="text-5xl md:text-6xl font-display font-bold mb-6 text-primary">
             Choose Your Experience
@@ -115,6 +116,8 @@ const Packages = () => {
           ))}
         </div>
       </main>
+      
+      <Footer />
     </div>
   );
 };

@@ -1,12 +1,13 @@
 import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 import { Instagram, Mail } from "lucide-react";
 
 const Contact = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Navigation />
       
-      <main className="container mx-auto px-6 py-32">
+      <main className="container mx-auto px-6 py-32 flex-1">
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="text-5xl md:text-6xl font-display font-bold mb-8 text-primary">
             Get in Touch
@@ -38,6 +39,8 @@ const Contact = () => {
           </div>
         </div>
       </main>
+      
+      <Footer />
     </div>
   );
 };

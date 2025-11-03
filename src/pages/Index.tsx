@@ -1,17 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 import heroImage from "@/assets/hero-luxury-dorm.jpg";
 
 const Index = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Navigation />
       
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden flex-1">
         {/* Background Image with Dark Overlay for Contrast */}
         <div className="absolute inset-0 z-0">
           <img
@@ -30,11 +31,13 @@ const Index = () => {
           <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold mb-6 text-cream drop-shadow-2xl">
             Dormify
           </h1>
-          <p className="text-xl md:text-2xl font-display italic text-gold drop-shadow-lg mb-4">
-            Your Space, Your Style, Our Touch
+          
+          <p className="text-lg md:text-xl font-body text-cream/95 drop-shadow-lg mb-3 max-w-3xl mx-auto leading-relaxed">
+            Where exceptional living meets uncompromising quality. An exclusive experience crafted for those who accept nothing less than perfection.
           </p>
-          <p className="text-lg md:text-xl font-body text-cream/95 drop-shadow-lg mb-12 max-w-2xl mx-auto">
-            Elevating student living into a luxury experience
+          
+          <p className="text-xl md:text-2xl font-display italic text-gradient-gold drop-shadow-lg mb-12">
+            Your space, your style, our touch
           </p>
           
           <Button
@@ -47,6 +50,8 @@ const Index = () => {
           </Button>
         </div>
       </section>
+      
+      <Footer />
     </div>
   );
 };
