@@ -8,55 +8,58 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Luxury Emerald & Gold Palette */
-    --background: 40 40% 96%;
-    --foreground: 0 0% 17%;
+    /* Rich Luxury Palette */
+    --background: 35 30% 95%;
+    --foreground: 0 0% 10%;
 
-    --card: 40 40% 98%;
-    --card-foreground: 0 0% 17%;
+    --card: 35 35% 97%;
+    --card-foreground: 0 0% 10%;
 
-    --popover: 40 40% 98%;
-    --popover-foreground: 0 0% 17%;
+    --popover: 35 35% 97%;
+    --popover-foreground: 0 0% 10%;
 
-    /* Deep Emerald Green */
-    --primary: 160 70% 18%;
-    --primary-foreground: 40 40% 96%;
+    /* Rich Emerald Green */
+    --primary: 158 64% 20%;
+    --primary-foreground: 35 30% 95%;
 
-    /* Champagne Gold */
-    --secondary: 45 70% 52%;
-    --secondary-foreground: 0 0% 17%;
+    /* Vibrant Gold */
+    --secondary: 43 95% 58%;
+    --secondary-foreground: 0 0% 10%;
 
-    --muted: 40 30% 90%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 35 20% 88%;
+    --muted-foreground: 0 0% 40%;
 
-    /* Gold Accent */
-    --accent: 45 70% 52%;
-    --accent-foreground: 0 0% 17%;
+    /* Rich Gold Accent */
+    --accent: 43 95% 58%;
+    --accent-foreground: 0 0% 10%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 40 40% 96%;
+    --destructive-foreground: 35 30% 95%;
 
-    --border: 40 20% 85%;
-    --input: 40 20% 85%;
-    --ring: 160 70% 18%;
+    --border: 35 25% 82%;
+    --input: 35 25% 82%;
+    --ring: 158 64% 20%;
 
     --radius: 0.5rem;
 
-    /* Custom Luxury Tokens */
-    --emerald: 160 70% 18%;
-    --emerald-light: 160 50% 30%;
-    --gold: 45 70% 52%;
-    --gold-light: 45 85% 65%;
-    --cream: 40 40% 96%;
-    --charcoal: 0 0% 17%;
+    /* Vibrant Luxury Tokens */
+    --emerald: 158 64% 20%;
+    --emerald-dark: 158 70% 12%;
+    --emerald-light: 158 50% 35%;
+    --gold: 43 95% 58%;
+    --gold-dark: 43 90% 48%;
+    --gold-light: 43 100% 70%;
+    --cream: 35 30% 95%;
+    --charcoal: 0 0% 10%;
     
-    /* Gradients */
-    --gradient-luxury: linear-gradient(135deg, hsl(var(--emerald)) 0%, hsl(var(--emerald-light)) 100%);
-    --gradient-gold: linear-gradient(135deg, hsl(var(--gold)) 0%, hsl(var(--gold-light)) 100%);
+    /* Rich Gradients */
+    --gradient-luxury: linear-gradient(135deg, hsl(var(--emerald-dark)) 0%, hsl(var(--emerald)) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(var(--gold-dark)) 0%, hsl(var(--gold)) 50%, hsl(var(--gold-light)) 100%);
+    --gradient-hero-overlay: linear-gradient(135deg, hsl(var(--emerald-dark) / 0.85) 0%, hsl(var(--charcoal) / 0.75) 100%);
     
     /* Effects */
-    --shadow-luxury: 0 20px 60px -10px hsl(var(--emerald) / 0.3);
-    --shadow-gold: 0 10px 40px -10px hsl(var(--gold) / 0.2);
+    --shadow-luxury: 0 25px 70px -15px hsl(var(--emerald) / 0.4);
+    --shadow-gold: 0 15px 50px -10px hsl(var(--gold) / 0.35);
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
