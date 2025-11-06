@@ -9,11 +9,68 @@ import {
 import { Button } from "@/components/ui/button";
 import { Plus, Minus } from "lucide-react";
 
+// Import all item images
+import ledStrip from "@/assets/items/led-strip.jpg";
+import flowerLed from "@/assets/items/flower-led.jpg";
+import skylight from "@/assets/items/skylight.jpg";
+import jellyfishLight from "@/assets/items/jellyfish-light.jpg";
+import artificialCandles from "@/assets/items/artificial-candles.jpg";
+import poster from "@/assets/items/poster.jpg";
+import footballWallArt from "@/assets/items/football-wall-art.jpg";
+import worldMap from "@/assets/items/world-map.jpg";
+import flags from "@/assets/items/flags.jpg";
+import vinylSet from "@/assets/items/vinyl-set.jpg";
+import artificialFlowers from "@/assets/items/artificial-flowers.jpg";
+import rug from "@/assets/items/rug.jpg";
+import basketballHoop from "@/assets/items/basketball-hoop.jpg";
+import soccerGoal from "@/assets/items/soccer-goal.jpg";
+import footballDecor from "@/assets/items/football-decor.jpg";
+import plushToy from "@/assets/items/plush-toy.jpg";
+import bobaPlush from "@/assets/items/boba-plush.jpg";
+import catPlush from "@/assets/items/cat-plush.jpg";
+import pigPlush from "@/assets/items/pig-plush.jpg";
+import mousePad from "@/assets/items/mouse-pad.jpg";
+import rgbMousePad from "@/assets/items/rgb-mouse-pad.jpg";
+import clock from "@/assets/items/clock.jpg";
+import inflatableBeanBag from "@/assets/items/inflatable-bean-bag.jpg";
+import qualityBeanBag from "@/assets/items/quality-bean-bag.jpg";
+import campingChair from "@/assets/items/camping-chair.jpg";
+import shoeRack from "@/assets/items/shoe-rack.jpg";
+
 interface PackageSelectorProps {
   packageType: "DORM PIECE" | "DORM DROP";
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
+
+const itemImages: Record<string, string> = {
+  "LED Strip (30m)": ledStrip,
+  "Flower LED": flowerLed,
+  "Skylight": skylight,
+  "Jellyfish Light": jellyfishLight,
+  "Artificial Candles": artificialCandles,
+  "Poster": poster,
+  "Football Wall Art Print": footballWallArt,
+  "World Map": worldMap,
+  "Flags": flags,
+  "Vinyl Set (8 pcs)": vinylSet,
+  "Artificial Flowers": artificialFlowers,
+  "Rug": rug,
+  "Basketball Hoop": basketballHoop,
+  "Soccer Goal Net": soccerGoal,
+  "Random Football Decor": footballDecor,
+  "Plush Toy": plushToy,
+  "Boba Tea Plush": bobaPlush,
+  "Cat Plush": catPlush,
+  "Pig Plush": pigPlush,
+  "Mouse Pad": mousePad,
+  "RGB Mouse Pad": rgbMousePad,
+  "Clock": clock,
+  "Inflatable Bean Bag": inflatableBeanBag,
+  "High-Quality Bean Bag": qualityBeanBag,
+  "Camping Chair": campingChair,
+  "Shoe Rack": shoeRack,
+};
 
 const categories = {
   "ROOM LIGHTING & AMBIENCE": [
@@ -65,6 +122,9 @@ export const PackageSelector = ({
   onOpenChange,
 }: PackageSelectorProps) => {
   const [selectedItems, setSelectedItems] = useState<Record<string, number>>({});
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    Object.keys(categories)[0]
+  );
 
   const isDormPiece = packageType === "DORM PIECE";
   const totalItems = Object.values(selectedItems).reduce((sum, count) => sum + count, 0);
@@ -74,6 +134,24 @@ export const PackageSelector = ({
     const itemData = category.find((i) => i.name === itemName);
     return sum + (itemData?.price || 0) * count;
   }, 0);
+
+  const getSelectedItemsList = () => {
+    return Object.entries(selectedItems)
+      .map(([item]) => {
+        const [, itemName] = item.split("|||");
+        return itemName;
+      })
+      .join(", ");
+  };
+
+  const handleContactUs = () => {
+    const items = getSelectedItemsList();
+    const subject = encodeURIComponent(`${packageType} Package Inquiry`);
+    const body = encodeURIComponent(
+      `Hello,\n\nI would like to inquire about the ${packageType} package with the following items:\n\n${items}\n\nTotal: £${totalPrice.toFixed(2)}\n\nThank you!`
+    );
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+  };
 
   const toggleItem = (category: string, itemName: string) => {
     const key = `${category}|||${itemName}`;
@@ -124,108 +202,153 @@ export const PackageSelector = ({
     return isCategoryHasSelection(category) && !isItemSelected(category, itemName);
   };
 
+  const currentItems = categories[selectedCategory as keyof typeof categories];
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-display text-primary">
-            {packageType} - Select Items
-          </DialogTitle>
-          {isDormPiece && (
-            <p className="text-sm text-foreground/60">
-              Choose up to 3 items individually
-            </p>
-          )}
-          {!isDormPiece && (
-            <p className="text-sm text-foreground/60">
-              Choose 1 item or none from each category
-            </p>
-          )}
-        </DialogHeader>
+      <DialogContent className="max-w-6xl max-h-[85vh] overflow-hidden p-0">
+        <div className="flex h-full">
+          {/* Left Sidebar - Categories */}
+          <div className="w-64 border-r bg-muted/20 p-4 overflow-y-auto">
+            <DialogHeader className="px-2 pb-4">
+              <DialogTitle className="text-xl font-display text-primary">
+                {packageType}
+              </DialogTitle>
+              <p className="text-xs text-foreground/60 mt-1">
+                {isDormPiece
+                  ? "Choose up to 3 items individually"
+                  : "Choose 1 item or none from each category"}
+              </p>
+            </DialogHeader>
+            <div className="space-y-2 mt-4">
+              {Object.keys(categories).map((categoryName) => (
+                <Button
+                  key={categoryName}
+                  variant={selectedCategory === categoryName ? "gold" : "ghost"}
+                  className="w-full justify-start text-left h-auto py-3 px-3"
+                  onClick={() => setSelectedCategory(categoryName)}
+                >
+                  <span className="text-sm font-medium leading-tight">
+                    {categoryName}
+                  </span>
+                </Button>
+              ))}
+            </div>
+          </div>
 
-        <div className="space-y-6 py-4">
-          {Object.entries(categories).map(([categoryName, items]) => (
-            <div key={categoryName}>
-              <h3 className="font-semibold text-lg mb-3 text-primary">
-                {categoryName}
+          {/* Main Content - Items */}
+          <div className="flex-1 flex flex-col overflow-hidden">
+            <div className="p-6 border-b">
+              <h3 className="font-semibold text-xl text-primary">
+                {selectedCategory}
               </h3>
-              <div className="grid gap-2">
-                {items.map((item) => {
-                  const key = `${categoryName}|||${item.name}`;
-                  const isSelected = isItemSelected(categoryName, item.name);
-                  const isGrayed = shouldGrayOut(categoryName, item.name);
-                  
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-6">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                {currentItems.map((item) => {
+                  const key = `${selectedCategory}|||${item.name}`;
+                  const isSelected = isItemSelected(selectedCategory, item.name);
+                  const isGrayed = shouldGrayOut(selectedCategory, item.name);
+                  const cannotAdd = isDormPiece && totalItems >= 3 && !isSelected;
+
                   return (
                     <div
                       key={item.name}
-                      className={`flex items-center justify-between p-3 border rounded-lg transition-all ${
+                      className={`flex flex-col border rounded-lg overflow-hidden transition-all ${
                         isSelected
-                          ? "border-[hsl(var(--gold))] bg-[hsl(var(--gold)/0.05)]"
+                          ? "border-[hsl(var(--gold))] shadow-lg"
                           : "border-border"
                       } ${isGrayed ? "opacity-40" : ""}`}
                     >
-                      <div className="flex-1">
-                        <span className="text-sm font-medium">
-                          {item.name}
-                          {item.tbd && " (TBD)"}
-                        </span>
-                        {!item.tbd && (
-                          <span className="text-sm text-foreground/60 ml-2">
-                            £{item.price.toFixed(2)}
-                          </span>
-                        )}
+                      <div className="aspect-square relative bg-background">
+                        <img
+                          src={itemImages[item.name]}
+                          alt={item.name}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
-                      <div className="flex items-center gap-2">
-                        {isDormPiece ? (
-                          <Button
-                            size="sm"
-                            variant={isSelected ? "gold" : "outline"}
-                            onClick={() => toggleItem(categoryName, item.name)}
-                            disabled={item.tbd}
-                          >
-                            {isSelected ? "Remove" : "Add"}
-                          </Button>
-                        ) : (
-                          <>
+                      <div className="p-3 space-y-2">
+                        <div className="text-center">
+                          <p className="text-sm font-medium leading-tight">
+                            {item.name}
+                          </p>
+                          {!item.tbd ? (
+                            <p className="text-lg font-bold text-[hsl(var(--gold))] mt-1">
+                              £{item.price.toFixed(2)}
+                            </p>
+                          ) : (
+                            <p className="text-sm text-foreground/60 mt-1">TBD</p>
+                          )}
+                        </div>
+                        <div className="flex justify-center gap-2">
+                          {isDormPiece ? (
+                            <>
+                              <Button
+                                size="icon"
+                                variant="outline"
+                                className="h-9 w-9"
+                                onClick={() => toggleItem(selectedCategory, item.name)}
+                                disabled={item.tbd || cannotAdd}
+                              >
+                                {isSelected ? (
+                                  <Minus className="h-4 w-4" />
+                                ) : (
+                                  <Plus className="h-4 w-4" />
+                                )}
+                              </Button>
+                            </>
+                          ) : (
                             <Button
                               size="icon"
                               variant="outline"
-                              className="h-8 w-8"
-                              onClick={() => toggleItem(categoryName, item.name)}
-                              disabled={item.tbd || (!isSelected && isCategoryHasSelection(categoryName))}
+                              className="h-9 w-9"
+                              onClick={() => toggleItem(selectedCategory, item.name)}
+                              disabled={
+                                item.tbd ||
+                                (!isSelected && isCategoryHasSelection(selectedCategory))
+                              }
                             >
-                              {isSelected ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+                              {isSelected ? (
+                                <Minus className="h-4 w-4" />
+                              ) : (
+                                <Plus className="h-4 w-4" />
+                              )}
                             </Button>
-                          </>
-                        )}
+                          )}
+                        </div>
                       </div>
                     </div>
                   );
                 })}
               </div>
             </div>
-          ))}
-        </div>
 
-        <DialogFooter className="flex-col sm:flex-row gap-4 items-end">
-          <div className="flex-1 text-right space-y-1">
-            <div className="text-2xl font-bold text-[hsl(var(--gold))]">
-              Total: £{totalPrice.toFixed(2)}
+            {/* Footer */}
+            <div className="border-t p-6 bg-muted/20">
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <div className="text-3xl font-bold text-[hsl(var(--gold))]">
+                    £{totalPrice.toFixed(2)}
+                  </div>
+                  {isDormPiece && totalItems > 3 && (
+                    <p className="text-sm text-red-500 font-medium">
+                      Maximum 3 items allowed for DORM PIECE
+                    </p>
+                  )}
+                </div>
+                <Button
+                  variant="gold"
+                  size="lg"
+                  onClick={handleContactUs}
+                  disabled={(isDormPiece && totalItems > 3) || totalItems === 0}
+                >
+                  Contact Us
+                </Button>
+              </div>
             </div>
-            {isDormPiece && totalItems > 3 && (
-              <p className="text-sm text-red-500 font-medium">
-                Maximum 3 items allowed for DORM PIECE
-              </p>
-            )}
           </div>
-          <Button
-            variant="gold"
-            size="lg"
-            disabled={(isDormPiece && totalItems > 3) || totalItems === 0}
-          >
-            Proceed to Checkout
-          </Button>
-        </DialogFooter>
+        </div>
       </DialogContent>
     </Dialog>
   );
