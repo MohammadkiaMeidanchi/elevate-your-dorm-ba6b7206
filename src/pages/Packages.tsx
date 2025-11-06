@@ -1,15 +1,19 @@
+import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Card } from "@/components/ui/card";
 import { Check, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { PackageSelector } from "@/components/PackageSelector";
 
 const Packages = () => {
+  const [selectedPackage, setSelectedPackage] = useState<"DORM PIECE" | "DORM DROP" | null>(null);
+
   const packages = [
     {
       name: "DORM PIECE",
       price: "£5.99",
-      description: "Perfect for people with less needs and who are looking for something simple. Get up to two of our items individually.",
+      description: "Perfect for people with less needs and who are looking for something simple. Choose 3 items individually.",
       features: [
         "Choose up to 2 premium items",
         "Individual selection",
@@ -118,6 +122,15 @@ const Packages = () => {
                     Contact Us
                   </Button>
                 </a>
+              ) : pkg.name === "DORM DROP" || pkg.name === "DORM PIECE" ? (
+                <Button
+                  variant={pkg.featured ? "gold" : "luxury"}
+                  size="lg"
+                  className="w-full"
+                  onClick={() => setSelectedPackage(pkg.name as "DORM PIECE" | "DORM DROP")}
+                >
+                  Select Package
+                </Button>
               ) : (
                 <Button
                   variant={pkg.featured ? "gold" : "luxury"}
@@ -130,6 +143,14 @@ const Packages = () => {
             </Card>
           ))}
         </div>
+
+        {selectedPackage && (
+          <PackageSelector
+            packageType={selectedPackage}
+            open={!!selectedPackage}
+            onOpenChange={(open) => !open && setSelectedPackage(null)}
+          />
+        )}
       </main>
       
       <Footer />
