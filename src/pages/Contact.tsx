@@ -30,6 +30,8 @@ const Contact = () => {
             
             <a
               href="mailto:dormify.oic@gmail.com"
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex flex-col items-center justify-center p-12 luxury-border rounded-lg hover:luxury-shadow transition-all duration-500 hover:scale-105 group"
             >
               <Mail className="w-16 h-16 text-primary mb-4 transition-colors group-hover:text-gold" />

@@ -59,8 +59,11 @@ const Packages = () => {
           <h1 className="text-5xl md:text-6xl font-display font-bold mb-6 text-primary">
             Choose Your Experience
           </h1>
-          <p className="text-xl font-body text-foreground/70">
+          <p className="text-xl font-body text-foreground/70 mb-4">
             Select the package that matches your vision
+          </p>
+          <p className="text-lg font-body text-primary/80 font-medium">
+            We support local businesses
           </p>
         </div>
         
@@ -105,13 +108,25 @@ const Packages = () => {
                 ))}
               </div>
               
-              <Button
-                variant={pkg.featured ? "gold" : "luxury"}
-                size="lg"
-                className="w-full"
-              >
-                Select Package
-              </Button>
+              {pkg.name === "DORM REFORM" ? (
+                <a href="mailto:dormify.oic@gmail.com">
+                  <Button
+                    variant="luxury"
+                    size="lg"
+                    className="w-full"
+                  >
+                    Contact Us
+                  </Button>
+                </a>
+              ) : (
+                <Button
+                  variant={pkg.featured ? "gold" : "luxury"}
+                  size="lg"
+                  className="w-full"
+                >
+                  Select Package
+                </Button>
+              )}
             </Card>
           ))}
         </div>
