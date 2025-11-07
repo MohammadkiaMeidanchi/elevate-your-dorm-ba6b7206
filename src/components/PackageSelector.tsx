@@ -160,6 +160,11 @@ export const PackageSelector = ({
     const key = `${category}|||${itemName}`;
     setSelectedItems((prev) => {
       const current = prev[key] || 0;
+      const currentTotal = Object.values(prev).reduce((sum, count) => sum + count, 0);
+      // Prevent adding if it would exceed 3 items for DORM PIECE
+      if (isDormPiece && currentTotal >= 3) {
+        return prev;
+      }
       return { ...prev, [key]: current + 1 };
     });
   };
@@ -245,7 +250,8 @@ export const PackageSelector = ({
       <DialogContent className="max-w-6xl max-h-[85vh] overflow-hidden p-0">
         <div className="flex h-full">
           {/* Left Sidebar - Categories */}
-          <ScrollArea className="w-64 border-r bg-muted/20 p-4 h-[85vh]">
+          <div className="w-64 border-r bg-muted/20 h-[85vh] flex flex-col">
+            <ScrollArea className="flex-1 p-4">
             <DialogHeader className="px-2 pb-4">
               <DialogTitle className="text-xl font-display text-primary">
                 {packageType}
@@ -270,7 +276,8 @@ export const PackageSelector = ({
                 </Button>
               ))}
             </div>
-          </ScrollArea>
+            </ScrollArea>
+          </div>
 
           {/* Main Content - Items */}
           <div className="flex-1 flex flex-col overflow-hidden">
