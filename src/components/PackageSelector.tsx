@@ -7,7 +7,8 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Plus, Minus } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Plus, Minus, Search } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 // Import all item images
@@ -126,6 +127,7 @@ export const PackageSelector = ({
   const [selectedCategory, setSelectedCategory] = useState<string>(
     Object.keys(categories)[0]
   );
+  const [searchTerm, setSearchTerm] = useState("");
 
   const isDormPiece = packageType === "DORM PIECE";
   const totalItems = Object.values(selectedItems).reduce((sum, count) => sum + count, 0);
@@ -154,22 +156,31 @@ export const PackageSelector = ({
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
   };
 
+  const incrementItem = (category: string, itemName: string) => {
+    const key = `${category}|||${itemName}`;
+    setSelectedItems((prev) => {
+      const current = prev[key] || 0;
+      return { ...prev, [key]: current + 1 };
+    });
+  };
+
+  const decrementItem = (category: string, itemName: string) => {
+    const key = `${category}|||${itemName}`;
+    setSelectedItems((prev) => {
+      const current = prev[key] || 0;
+      if (current <= 1) {
+        const newState = { ...prev };
+        delete newState[key];
+        return newState;
+      }
+      return { ...prev, [key]: current - 1 };
+    });
+  };
+
   const toggleItem = (category: string, itemName: string) => {
     const key = `${category}|||${itemName}`;
     
-    if (isDormPiece) {
-      // DORM PIECE: can select up to 3 items total
-      setSelectedItems((prev) => {
-        const current = prev[key] || 0;
-        if (current > 0) {
-          const newState = { ...prev };
-          delete newState[key];
-          return newState;
-        } else {
-          return { ...prev, [key]: 1 };
-        }
-      });
-    } else {
+    if (!isDormPiece) {
       // DORM DROP: one item per category
       setSelectedItems((prev) => {
         const newState = { ...prev };
@@ -203,7 +214,31 @@ export const PackageSelector = ({
     return isCategoryHasSelection(category) && !isItemSelected(category, itemName);
   };
 
-  const currentItems = categories[selectedCategory as keyof typeof categories];
+  const getItemQuantity = (category: string, itemName: string) => {
+    const key = `${category}|||${itemName}`;
+    return selectedItems[key] || 0;
+  };
+
+  const getFilteredItems = (): Array<{ name: string; price: number; category?: string }> => {
+    if (!searchTerm.trim()) {
+      return categories[selectedCategory as keyof typeof categories];
+    }
+    
+    const searchLower = searchTerm.toLowerCase();
+    const allItems: Array<{ name: string; price: number; category: string }> = [];
+    
+    Object.entries(categories).forEach(([categoryName, items]) => {
+      items.forEach((item) => {
+        if (item.name.toLowerCase().includes(searchLower)) {
+          allItems.push({ ...item, category: categoryName });
+        }
+      });
+    });
+    
+    return allItems;
+  };
+
+  const currentItems = getFilteredItems();
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -239,54 +274,101 @@ export const PackageSelector = ({
 
           {/* Main Content - Items */}
           <div className="flex-1 flex flex-col overflow-hidden">
-            <div className="p-6 border-b">
+            <div className="p-6 border-b space-y-4">
               <h3 className="font-semibold text-xl text-primary">
-                {selectedCategory}
+                {searchTerm ? "Search Results" : selectedCategory}
               </h3>
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Search items..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
             </div>
 
             <ScrollArea className="flex-1 p-6">
               <div className="grid grid-cols-2 md:grid-cols-3 gap-6 pb-4">
-                {currentItems.map((item) => {
-                  const key = `${selectedCategory}|||${item.name}`;
-                  const isSelected = isItemSelected(selectedCategory, item.name);
-                  const isGrayed = shouldGrayOut(selectedCategory, item.name);
-                  const cannotAdd = isDormPiece && totalItems >= 3 && !isSelected;
+                {currentItems.length === 0 ? (
+                  <div className="col-span-full text-center py-12 text-muted-foreground">
+                    No items found matching "{searchTerm}"
+                  </div>
+                ) : (
+                  currentItems.map((item) => {
+                    const itemCategory = "category" in item ? item.category : selectedCategory;
+                    const key = `${itemCategory}|||${item.name}`;
+                    const isSelected = isItemSelected(itemCategory, item.name);
+                    const isGrayed = shouldGrayOut(itemCategory, item.name);
+                    const quantity = getItemQuantity(itemCategory, item.name);
+                    const cannotAdd = isDormPiece && totalItems >= 3 && !isSelected;
 
-                  return (
-                    <div
-                      key={item.name}
-                      className={`flex flex-col border rounded-lg overflow-hidden transition-all ${
-                        isSelected
-                          ? "border-[hsl(var(--gold))] shadow-lg"
-                          : "border-border"
-                      } ${isGrayed ? "opacity-40" : ""}`}
-                    >
-                      <div className="aspect-square relative bg-background">
-                        <img
-                          src={itemImages[item.name]}
-                          alt={item.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="p-3 space-y-2">
-                        <div className="text-center">
-                          <p className="text-sm font-medium leading-tight">
-                            {item.name}
-                          </p>
-                          <p className="text-lg font-bold text-[hsl(var(--gold))] mt-1">
-                            £{item.price.toFixed(2)}
-                          </p>
+                    return (
+                      <div
+                        key={key}
+                        className={`flex flex-col border rounded-lg overflow-hidden transition-all ${
+                          isSelected
+                            ? "border-[hsl(var(--gold))] shadow-lg"
+                            : "border-border"
+                        } ${isGrayed ? "opacity-40" : ""}`}
+                      >
+                        <div className="aspect-square relative bg-background">
+                          <img
+                            src={itemImages[item.name]}
+                            alt={item.name}
+                            className="w-full h-full object-cover"
+                          />
+                          {quantity > 0 && (
+                            <div className="absolute top-2 right-2 bg-[hsl(var(--gold))] text-white rounded-full w-7 h-7 flex items-center justify-center font-bold text-sm">
+                              {quantity}
+                            </div>
+                          )}
                         </div>
-                        <div className="flex justify-center gap-2">
-                          {isDormPiece ? (
-                            <>
+                        <div className="p-3 space-y-2">
+                          <div className="text-center">
+                            <p className="text-sm font-medium leading-tight">
+                              {item.name}
+                            </p>
+                            {searchTerm && "category" in item && (
+                              <p className="text-xs text-muted-foreground mt-0.5">
+                                {item.category}
+                              </p>
+                            )}
+                            <p className="text-lg font-bold text-[hsl(var(--gold))] mt-1">
+                              £{item.price.toFixed(2)}
+                            </p>
+                          </div>
+                          <div className="flex justify-center gap-2">
+                            {isDormPiece ? (
+                              <>
+                                <Button
+                                  size="icon"
+                                  variant="outline"
+                                  className="h-9 w-9"
+                                  onClick={() => decrementItem(itemCategory, item.name)}
+                                  disabled={quantity === 0}
+                                >
+                                  <Minus className="h-4 w-4" />
+                                </Button>
+                                <Button
+                                  size="icon"
+                                  variant="outline"
+                                  className="h-9 w-9"
+                                  onClick={() => incrementItem(itemCategory, item.name)}
+                                  disabled={cannotAdd}
+                                >
+                                  <Plus className="h-4 w-4" />
+                                </Button>
+                              </>
+                            ) : (
                               <Button
                                 size="icon"
                                 variant="outline"
                                 className="h-9 w-9"
-                                onClick={() => toggleItem(selectedCategory, item.name)}
-                                disabled={cannotAdd}
+                                onClick={() => toggleItem(itemCategory, item.name)}
+                                disabled={!isSelected && isCategoryHasSelection(itemCategory)}
                               >
                                 {isSelected ? (
                                   <Minus className="h-4 w-4" />
@@ -294,27 +376,13 @@ export const PackageSelector = ({
                                   <Plus className="h-4 w-4" />
                                 )}
                               </Button>
-                            </>
-                          ) : (
-                            <Button
-                              size="icon"
-                              variant="outline"
-                              className="h-9 w-9"
-                              onClick={() => toggleItem(selectedCategory, item.name)}
-                              disabled={!isSelected && isCategoryHasSelection(selectedCategory)}
-                            >
-                              {isSelected ? (
-                                <Minus className="h-4 w-4" />
-                              ) : (
-                                <Plus className="h-4 w-4" />
-                              )}
-                            </Button>
-                          )}
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })
+                )}
               </div>
             </ScrollArea>
 
