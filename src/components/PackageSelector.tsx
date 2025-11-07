@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Plus, Minus } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 // Import all item images
 import ledStrip from "@/assets/items/led-strip.jpg";
@@ -81,7 +82,7 @@ const categories = {
     { name: "Artificial Candles", price: 15 },
   ],
   "WALL & DECOR": [
-    { name: "Poster", price: 0, tbd: true },
+    { name: "Poster", price: 15 },
     { name: "Football Wall Art Print", price: 24 },
     { name: "World Map", price: 13 },
     { name: "Flags", price: 15 },
@@ -209,7 +210,7 @@ export const PackageSelector = ({
       <DialogContent className="max-w-6xl max-h-[85vh] overflow-hidden p-0">
         <div className="flex h-full">
           {/* Left Sidebar - Categories */}
-          <div className="w-64 border-r bg-muted/20 p-4 overflow-y-auto">
+          <ScrollArea className="w-64 border-r bg-muted/20 p-4 h-[85vh]">
             <DialogHeader className="px-2 pb-4">
               <DialogTitle className="text-xl font-display text-primary">
                 {packageType}
@@ -234,7 +235,7 @@ export const PackageSelector = ({
                 </Button>
               ))}
             </div>
-          </div>
+          </ScrollArea>
 
           {/* Main Content - Items */}
           <div className="flex-1 flex flex-col overflow-hidden">
@@ -244,8 +245,8 @@ export const PackageSelector = ({
               </h3>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-6">
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+            <ScrollArea className="flex-1 p-6">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-6 pb-4">
                 {currentItems.map((item) => {
                   const key = `${selectedCategory}|||${item.name}`;
                   const isSelected = isItemSelected(selectedCategory, item.name);
@@ -273,13 +274,9 @@ export const PackageSelector = ({
                           <p className="text-sm font-medium leading-tight">
                             {item.name}
                           </p>
-                          {!item.tbd ? (
-                            <p className="text-lg font-bold text-[hsl(var(--gold))] mt-1">
-                              £{item.price.toFixed(2)}
-                            </p>
-                          ) : (
-                            <p className="text-sm text-foreground/60 mt-1">TBD</p>
-                          )}
+                          <p className="text-lg font-bold text-[hsl(var(--gold))] mt-1">
+                            £{item.price.toFixed(2)}
+                          </p>
                         </div>
                         <div className="flex justify-center gap-2">
                           {isDormPiece ? (
@@ -289,7 +286,7 @@ export const PackageSelector = ({
                                 variant="outline"
                                 className="h-9 w-9"
                                 onClick={() => toggleItem(selectedCategory, item.name)}
-                                disabled={item.tbd || cannotAdd}
+                                disabled={cannotAdd}
                               >
                                 {isSelected ? (
                                   <Minus className="h-4 w-4" />
@@ -304,10 +301,7 @@ export const PackageSelector = ({
                               variant="outline"
                               className="h-9 w-9"
                               onClick={() => toggleItem(selectedCategory, item.name)}
-                              disabled={
-                                item.tbd ||
-                                (!isSelected && isCategoryHasSelection(selectedCategory))
-                              }
+                              disabled={!isSelected && isCategoryHasSelection(selectedCategory)}
                             >
                               {isSelected ? (
                                 <Minus className="h-4 w-4" />
@@ -322,7 +316,7 @@ export const PackageSelector = ({
                   );
                 })}
               </div>
-            </div>
+            </ScrollArea>
 
             {/* Footer */}
             <div className="border-t p-6 bg-muted/20">
