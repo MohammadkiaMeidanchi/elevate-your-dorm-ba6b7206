@@ -297,7 +297,7 @@ export const PackageSelector = ({
               </div>
             </div>
 
-            <ScrollArea className="flex-1 p-6">
+            <ScrollArea className="h-[calc(85vh-240px)] p-6">
               <div className="grid grid-cols-2 md:grid-cols-3 gap-6 pb-4">
                 {currentItems.length === 0 ? (
                   <div className="col-span-full text-center py-12 text-muted-foreground">
