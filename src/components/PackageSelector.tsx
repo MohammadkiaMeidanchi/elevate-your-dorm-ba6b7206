@@ -221,13 +221,13 @@ export const PackageSelector = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-6xl max-h-[85vh] overflow-hidden p-0">
-        <div className="flex h-full">
+      <DialogContent className="max-w-6xl max-h-[90vh] sm:max-h-[85vh] overflow-hidden p-0">
+        <div className="flex flex-col sm:flex-row h-full">
           {/* Left Sidebar - Categories */}
-          <div className="w-64 border-r bg-muted/20 h-[85vh] flex flex-col">
-            <ScrollArea className="flex-1 p-4">
-            <DialogHeader className="px-2 pb-4">
-              <DialogTitle className="text-xl font-display text-primary">
+          <div className="w-full sm:w-48 md:w-64 border-b sm:border-b-0 sm:border-r bg-muted/20 max-h-[30vh] sm:max-h-[85vh] sm:h-[85vh] flex flex-col">
+            <ScrollArea className="flex-1 p-3 sm:p-4">
+            <DialogHeader className="px-2 pb-3 sm:pb-4">
+              <DialogTitle className="text-lg sm:text-xl font-display text-primary">
                 {packageType}
               </DialogTitle>
               <p className="text-xs text-foreground/60 mt-1">
@@ -236,15 +236,15 @@ export const PackageSelector = ({
                   : "Choose 1 item or none from each category"}
               </p>
             </DialogHeader>
-            <div className="space-y-2 mt-4">
+            <div className="space-y-1 sm:space-y-2 mt-2 sm:mt-4">
               {categories?.map((category) => (
                 <Button
                   key={category.id}
                   variant={selectedCategoryId === category.id ? "gold" : "ghost"}
-                  className="w-full justify-start text-left h-auto py-3 px-3"
+                  className="w-full justify-start text-left h-auto py-2 sm:py-3 px-2 sm:px-3"
                   onClick={() => setSelectedCategoryId(category.id)}
                 >
-                  <span className="text-sm font-medium leading-tight">
+                  <span className="text-xs sm:text-sm font-medium leading-tight">
                     {category.name}
                   </span>
                 </Button>
@@ -255,8 +255,8 @@ export const PackageSelector = ({
 
           {/* Main Content - Items */}
           <div className="flex-1 flex flex-col overflow-hidden">
-            <div className="p-6 border-b space-y-4">
-              <h3 className="font-semibold text-xl text-primary">
+            <div className="p-3 sm:p-4 md:p-6 border-b space-y-3 sm:space-y-4">
+              <h3 className="font-semibold text-base sm:text-lg md:text-xl text-primary">
                 {searchTerm ? "Search Results" : categories?.find(c => c.id === selectedCategoryId)?.name}
               </h3>
               <div className="relative">
@@ -266,13 +266,13 @@ export const PackageSelector = ({
                   placeholder="Search items..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 text-sm sm:text-base"
                 />
               </div>
             </div>
 
-            <ScrollArea className="h-[calc(85vh-240px)] p-6">
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-6 pb-4">
+            <ScrollArea className="h-[calc(60vh-180px)] sm:h-[calc(85vh-240px)] p-3 sm:p-4 md:p-6">
+              <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6 pb-4">
                 {currentItems.length === 0 ? (
                   <div className="col-span-full text-center py-12 text-muted-foreground">
                     No items found matching "{searchTerm}"
@@ -300,54 +300,54 @@ export const PackageSelector = ({
                             className="w-full h-full object-cover"
                           />
                           {quantity > 0 && (
-                            <div className="absolute top-2 right-2 bg-[hsl(var(--gold))] text-white rounded-full w-7 h-7 flex items-center justify-center font-bold text-sm">
+                            <div className="absolute top-1 right-1 sm:top-2 sm:right-2 bg-[hsl(var(--gold))] text-white rounded-full w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center font-bold text-xs sm:text-sm">
                               {quantity}
                             </div>
                           )}
                         </div>
-                        <div className="p-3 space-y-2">
+                        <div className="p-2 sm:p-3 space-y-2">
                           <div className="text-center">
-                            <p className="text-sm font-medium leading-tight">
+                            <p className="text-xs sm:text-sm font-medium leading-tight">
                               {item.name}
                             </p>
-                            <p className="text-lg font-bold text-[hsl(var(--gold))] mt-1">
+                            <p className="text-base sm:text-lg font-bold text-[hsl(var(--gold))] mt-1">
                               £{Number(item.price).toFixed(2)}
                             </p>
                           </div>
-                          <div className="flex justify-center gap-2">
+                          <div className="flex justify-center gap-1 sm:gap-2">
                             {isDormPiece ? (
                               <>
                                 <Button
                                   size="icon"
                                   variant="outline"
-                                  className="h-9 w-9"
+                                  className="h-8 w-8 sm:h-9 sm:w-9"
                                   onClick={() => decrementItem(item.id)}
                                   disabled={quantity === 0}
                                 >
-                                  <Minus className="h-4 w-4" />
+                                  <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
                                 </Button>
                                 <Button
                                   size="icon"
                                   variant="outline"
-                                  className="h-9 w-9"
+                                  className="h-8 w-8 sm:h-9 sm:w-9"
                                   onClick={() => incrementItem(item.id)}
                                   disabled={cannotAdd}
                                 >
-                                  <Plus className="h-4 w-4" />
+                                  <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
                                 </Button>
                               </>
                             ) : (
                               <Button
                                 size="icon"
                                 variant="outline"
-                                className="h-9 w-9"
+                                className="h-8 w-8 sm:h-9 sm:w-9"
                                 onClick={() => toggleItem(item.id, item.category_id)}
                                 disabled={!isSelected && isCategoryHasSelection(item.category_id)}
                               >
                                 {isSelected ? (
-                                  <Minus className="h-4 w-4" />
+                                  <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
                                 ) : (
-                                  <Plus className="h-4 w-4" />
+                                  <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
                                 )}
                               </Button>
                             )}
@@ -361,14 +361,14 @@ export const PackageSelector = ({
             </ScrollArea>
 
             {/* Footer */}
-            <div className="border-t p-6 bg-muted/20">
-              <div className="flex items-center justify-between">
-                <div className="space-y-1">
-                  <div className="text-3xl font-bold text-[hsl(var(--gold))]">
+            <div className="border-t p-3 sm:p-4 md:p-6 bg-muted/20">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0">
+                <div className="space-y-1 text-center sm:text-left">
+                  <div className="text-2xl sm:text-3xl font-bold text-[hsl(var(--gold))]">
                     £{totalPrice.toFixed(2)}
                   </div>
                   {isDormPiece && totalItems > 3 && (
-                    <p className="text-sm text-red-500 font-medium">
+                    <p className="text-xs sm:text-sm text-red-500 font-medium">
                       Maximum 3 items allowed for DORM PIECE
                     </p>
                   )}
@@ -378,6 +378,7 @@ export const PackageSelector = ({
                   size="lg"
                   onClick={handleContactUs}
                   disabled={(isDormPiece && totalItems > 3) || totalItems === 0}
+                  className="w-full sm:w-auto text-sm sm:text-base"
                 >
                   Contact Us
                 </Button>

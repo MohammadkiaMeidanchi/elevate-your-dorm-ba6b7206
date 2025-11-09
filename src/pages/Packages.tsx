@@ -58,56 +58,56 @@ const Packages = () => {
     <div className="min-h-screen flex flex-col">
       <Navigation />
       
-      <main className="container mx-auto px-6 py-32 flex-1">
-        <div className="max-w-6xl mx-auto text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-display font-bold mb-6 text-primary">
+      <main className="container mx-auto px-4 sm:px-6 py-20 sm:py-28 md:py-32 flex-1">
+        <div className="max-w-6xl mx-auto text-center mb-10 sm:mb-16">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 sm:mb-6 text-primary">
             Choose Your Experience
           </h1>
-          <p className="text-xl font-body text-foreground/70 mb-4">
+          <p className="text-lg sm:text-xl font-body text-foreground/70 mb-3 sm:mb-4 px-2">
             Select the package that matches your vision
           </p>
-          <p className="text-lg font-body text-primary/80 font-medium">
+          <p className="text-base sm:text-lg font-body text-primary/80 font-medium px-2">
             We support local businesses
           </p>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto">
           {packages.map((pkg) => (
             <Card
               key={pkg.name}
-              className={`relative p-8 text-center transition-all duration-500 hover:scale-105 ${
+              className={`relative p-5 sm:p-6 md:p-8 text-center transition-all duration-500 hover:scale-105 ${
                 pkg.featured
                   ? "border-[3px] border-[hsl(var(--gold))] luxury-shadow bg-gradient-to-b from-[hsl(var(--gold)/0.05)] to-background"
                   : "border border-border hover:border-[hsl(var(--gold)/0.3)]"
               }`}
             >
               {pkg.featured && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[hsl(var(--gold-dark))] via-[hsl(var(--gold))] to-[hsl(var(--gold-light))] text-charcoal px-6 py-2 rounded-full font-semibold text-sm flex items-center gap-2 gold-shadow">
-                  <Sparkles className="w-4 h-4" />
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[hsl(var(--gold-dark))] via-[hsl(var(--gold))] to-[hsl(var(--gold-light))] text-charcoal px-4 sm:px-6 py-1.5 sm:py-2 rounded-full font-semibold text-xs sm:text-sm flex items-center gap-2 gold-shadow whitespace-nowrap">
+                  <Sparkles className="w-3 h-3 sm:w-4 sm:h-4" />
                   Most Popular
                 </div>
               )}
               
-              <h2 className="text-2xl font-display font-bold mb-4 text-charcoal mt-2">
+              <h2 className="text-xl sm:text-2xl font-display font-bold mb-3 sm:mb-4 text-charcoal mt-2">
                 {pkg.name}
               </h2>
               
-              <div className="mb-6">
-                <p className="text-sm text-foreground/60 mb-2">From prices as little as</p>
-                <p className="text-5xl font-display font-bold text-gradient-gold">
+              <div className="mb-4 sm:mb-6">
+                <p className="text-xs sm:text-sm text-foreground/60 mb-1 sm:mb-2">From prices as little as</p>
+                <p className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-gradient-gold">
                   {pkg.price}
                 </p>
               </div>
               
-              <p className="text-base font-body text-foreground/70 leading-relaxed mb-8">
+              <p className="text-sm sm:text-base font-body text-foreground/70 leading-relaxed mb-6 sm:mb-8">
                 {pkg.description}
               </p>
               
-              <div className="border-t border-border pt-6 mb-8 text-left">
+              <div className="border-t border-border pt-4 sm:pt-6 mb-6 sm:mb-8 text-left">
                 {pkg.features.map((feature, index) => (
-                  <div key={index} className="flex items-start gap-3 mb-3">
-                    <Check className="w-5 h-5 text-[hsl(var(--gold))] flex-shrink-0 mt-0.5" />
-                    <span className="text-sm text-foreground/80">{feature}</span>
+                  <div key={index} className="flex items-start gap-2 sm:gap-3 mb-2 sm:mb-3">
+                    <Check className="w-4 h-4 sm:w-5 sm:h-5 text-[hsl(var(--gold))] flex-shrink-0 mt-0.5" />
+                    <span className="text-xs sm:text-sm text-foreground/80">{feature}</span>
                   </div>
                 ))}
               </div>
