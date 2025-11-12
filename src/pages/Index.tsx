@@ -27,16 +27,16 @@ const Index = () => {
         </div>
         
         {/* Content with High Contrast */}
-        <div className="relative z-10 text-center px-4 sm:px-6 py-20 sm:py-32">
-          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-bold mb-4 sm:mb-6 text-cream drop-shadow-2xl">
+        <div className="relative z-10 text-center px-6 py-32">
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold mb-6 text-cream drop-shadow-2xl">
             Dormify
           </h1>
           
-          <p className="text-base sm:text-lg md:text-xl font-body text-cream/95 drop-shadow-lg mb-2 sm:mb-3 max-w-3xl mx-auto leading-relaxed px-2">
+          <p className="text-lg md:text-xl font-body text-cream/95 drop-shadow-lg mb-3 max-w-3xl mx-auto leading-relaxed">
             Where exceptional living meets uncompromising quality. An exclusive experience crafted for those who accept nothing less than perfection.
           </p>
           
-          <p className="text-lg sm:text-xl md:text-2xl font-display italic text-gradient-gold drop-shadow-lg mb-8 sm:mb-12 px-2">
+          <p className="text-xl md:text-2xl font-display italic text-gradient-gold drop-shadow-lg mb-12">
             Your space, your style, our touch
           </p>
           
@@ -44,7 +44,7 @@ const Index = () => {
             variant="gold"
             size="lg"
             onClick={() => navigate("/packages")}
-            className="text-sm sm:text-base px-8 sm:px-12 py-4 sm:py-6 h-auto"
+            className="text-base px-12 py-6 h-auto"
           >
             Join Waitlist
           </Button>

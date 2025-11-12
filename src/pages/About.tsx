@@ -6,13 +6,13 @@ const About = () => {
     <div className="min-h-screen flex flex-col">
       <Navigation />
       
-      <main className="container mx-auto px-4 sm:px-6 py-20 sm:py-28 md:py-32 flex-1">
+      <main className="container mx-auto px-6 py-32 flex-1">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8 sm:mb-12 text-center text-primary">
+          <h1 className="text-5xl md:text-6xl font-display font-bold mb-12 text-center text-primary">
             About Us
           </h1>
           
-          <div className="space-y-6 sm:space-y-8 text-base sm:text-lg font-body leading-relaxed">
+          <div className="space-y-8 text-lg font-body leading-relaxed">
             <p className="text-foreground/80">
               Dormify is a business established by{" "}
               <span className="font-semibold text-gradient-gold">Jonathan Oku</span>,{" "}
